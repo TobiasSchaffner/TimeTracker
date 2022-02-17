@@ -1,0 +1,22 @@
+[package]
+name = "package"
+description = "A simple screen time tracker"
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tobias Schaffner <tobiasschaffner87@outlook.com>"]
+
+[package.metadata.deb]
+name = "time-tracker"
+copyright = "2022, Tobias Schaffner <tobiasschaffner87@outlook.com>"
+maintainer-scripts = "distribution/systemd"
+license-file = ["../LICENSE", "0"]
+assets = [
+    ["../target/release/time-tracker", "usr/bin/", "755"],
+    ["../target/release/time-tracker-daemon", "usr/bin/", "755"],
+    ["distribution/systemd/service", "/usr/lib/systemd/user/time-tracker.service", "644"],
+    ["../README.md", "usr/share/doc/time-tracker/README.md", "644"],
+]
+
+[package.metadata.deb.systemd-units]
+unit-name="time-tracker"
