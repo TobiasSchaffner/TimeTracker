@@ -1,0 +1,39 @@
+#!/bin/sh
+set -eu
+
+# Automatically added by cargo-deb
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] || [ "$1" = "abort-deconfigure" ] || [ "$1" = "abort-remove" ] ; then
+	# This will only remove masks created by d-s-h on package removal.
+	deb-systemd-helper --user unmask time-tracker.service >/dev/null || true
+
+	# was-enabled defaults to true, so new installations run enable.
+	if deb-systemd-helper --user --quiet was-enabled time-tracker.service; then
+		# Enables the unit on first installation, creates new
+		# symlinks on upgrades if the unit file has changed.
+		deb-systemd-helper --user enable time-tracker.service >/dev/null || true
+	else
+		# Update the statefile to add new symlinks (if any), which need to be
+		# cleaned up on purge. Also remove old symlinks.
+		deb-systemd-helper --user update-state time-tracker.service >/dev/null || true
+	fi
+fi
+
+# End automatically added section
+# Automatically added by cargo-deb
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] || [ "$1" = "abort-deconfigure" ] || [ "$1" = "abort-remove" ] ; then
+	if [ -d /run/systemd/system ]; then
+		USER="$(who | head -1 | awk '{print $1;}')"
+		runuser -l $USER -c "XDG_RUNTIME_DIR=/run/user/$(id -u $USER) systemctl --user daemon-reload >/dev/null || true"
+		if [ -n "$2" ]; then
+			_dh_action=restart
+		else
+			_dh_action=start
+		fi
+		runuser -l $USER -c "XDG_RUNTIME_DIR=/run/user/$(id -u $USER) deb-systemd-invoke --user $_dh_action time-tracker.service >/dev/null || true"
+	fi
+fi
+# End automatically added section
+
+: '
+#DEBHELPER#
+'

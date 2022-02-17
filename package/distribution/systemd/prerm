@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# Automatically added by cargo-deb
+if [ -d /run/systemd/system ] && [ "$1" = remove ]; then
+	USER="$(who | head -1 | awk '{print $1;}')"
+	runuser -l $USER -c "XDG_RUNTIME_DIR=/run/user/$(id -u $USER) deb-systemd-invoke --global stop time-tracker.service >/dev/null || true"
+fi
+# End automatically added section
+
+: '
+#DEBHELPER#
+'
