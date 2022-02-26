@@ -14,6 +14,7 @@ Use the time-tracker cli tool show the total active times per day.
 Per default the tool will show the last seven days.
 
 ```
+$ time-tracker -h
 USAGE:
     time-tracker [OPTIONS]
 
@@ -23,6 +24,17 @@ OPTIONS:
     -s, --start <START>      The start of the printed range [default: -7]
     -v, --verbose            Print all breaks
     -V, --version            Print version information
+```
+
+Sample output:
+
+```
+$ time-tracker -s -5
+Mon, 28-Feb-2022 - start: 08:07 - end: 17:51 - total: 09:00 - break: 00:43
+Tue,  1-Mar-2022 - start: 08:35 - end: 18:34 - total: 07:48 - break: 02:10
+Wed,  2-Mar-2022 - start: 08:08 - end: 18:56 - total: 09:10 - break: 01:38
+Thu,  3-Mar-2022 - start: 07:59 - end: 19:56 - total: 09:49 - break: 02:07
+Fri,  4-Mar-2022 - start: 08:43 - total: 03:33 - break: 00:45
 ```
 
 ## Build Project
