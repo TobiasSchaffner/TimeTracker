@@ -23,6 +23,10 @@ fn get_config_file(date: Date<Utc>) -> PathBuf {
     }
 }
 
+pub fn config_exists(date: Date<Utc>) -> bool {
+    get_config_file(date).exists()
+}
+
 pub fn load_config(date: Date<Utc>) -> Config {
     match fs::read_to_string(get_config_file(date)) {
         Ok(config) => serde_json::from_str(&config).expect("Malformed Json!"),

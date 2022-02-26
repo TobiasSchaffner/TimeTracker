@@ -4,71 +4,73 @@ use ttlib;
 
 fn print_date_offset(offset: i64, verbose: bool) {
     let date = ttlib::time::get_date(offset);
-    let config = ttlib::config::load_config(date);
 
-    let mut sum: i64 = 0;
-    let last = config.activities_timestamp.len() - 1;
+    if ttlib::config::config_exists(date) {
+        let config = ttlib::config::load_config(date);
 
-    for i in 0..config.activities_duration.len() {
-        sum += config.activities_duration[i];
-    }
+        let mut sum: i64 = 0;
+        let last = config.activities_timestamp.len() - 1;
 
-    let start_time = ttlib::time::local_time_from_millis(config.activities_timestamp[0]);
-    print!(
-        "{} - start: {}",
-        date.format("%a, %v"),
-        start_time.format("%H:%M"),
-    );
+        for i in 0..config.activities_duration.len() {
+            sum += config.activities_duration[i];
+        }
 
-    if offset != 0 {
-        let end_time = ttlib::time::local_time_from_millis(
-            config.activities_timestamp[last] + config.activities_duration[last],
+        let start_time = ttlib::time::local_time_from_millis(config.activities_timestamp[0]);
+        print!(
+            "{} - start: {}",
+            date.format("%a, %v"),
+            start_time.format("%H:%M"),
         );
-        print!(" - end: {}", end_time.format("%H:%M"));
-    }
 
-    let total_time = ttlib::time::duration_from_millis(sum);
-
-    print!(
-        " - total: {:02}:{:02}",
-        total_time.num_hours(),
-        total_time.num_minutes() % 60
-    );
-
-    let total_break = ttlib::time::duration_from_millis(
-        ((config.activities_timestamp[last] + config.activities_duration[last])
-            - config.activities_timestamp[0])
-            - sum,
-    );
-
-    print!(
-        " - break: {:02}:{:02}",
-        total_break.num_hours(),
-        total_break.num_minutes() % 60
-    );
-
-    println!();
-
-    if verbose && config.activities_timestamp.len() > 1 {
-        for i in 0..config.activities_timestamp.len() - 2 {
-            let start_break = ttlib::time::local_time_from_millis(
-                config.activities_timestamp[i] + config.activities_duration[i],
+        if offset != 0 {
+            let end_time = ttlib::time::local_time_from_millis(
+                config.activities_timestamp[last] + config.activities_duration[last],
             );
-            let end_break = ttlib::time::local_time_from_millis(
-                config.activities_timestamp[i + 1],
-            );
-            let duration = ttlib::time::duration_from_millis(
-                config.activities_timestamp[i + 1]
-                    - (config.activities_timestamp[i] + config.activities_duration[i]),
-            );
-            println!(
-                "    start: {} - end: {} - total: {:02}:{:02}:{:02}",
-                start_break.format("%H:%M"),
-                end_break.format("%H:%M"),
-                duration.num_hours(),
-                duration.num_minutes() % 60,
-                duration.num_seconds() % 60,
-            );
+            print!(" - end: {}", end_time.format("%H:%M"));
+        }
+
+        let total_time = ttlib::time::duration_from_millis(sum);
+
+        print!(
+            " - total: {:02}:{:02}",
+            total_time.num_hours(),
+            total_time.num_minutes() % 60
+        );
+
+        let total_break = ttlib::time::duration_from_millis(
+            ((config.activities_timestamp[last] + config.activities_duration[last])
+                - config.activities_timestamp[0])
+                - sum,
+        );
+
+        print!(
+            " - break: {:02}:{:02}",
+            total_break.num_hours(),
+            total_break.num_minutes() % 60
+        );
+
+        println!();
+
+        if verbose && config.activities_timestamp.len() > 1 {
+            for i in 0..config.activities_timestamp.len() - 2 {
+                let start_break = ttlib::time::local_time_from_millis(
+                    config.activities_timestamp[i] + config.activities_duration[i],
+                );
+                let end_break =
+                    ttlib::time::local_time_from_millis(config.activities_timestamp[i + 1]);
+                let duration = ttlib::time::duration_from_millis(
+                    config.activities_timestamp[i + 1]
+                        - (config.activities_timestamp[i] + config.activities_duration[i]),
+                );
+                println!(
+                    "    start: {} - end: {} - total: {:02}:{:02}:{:02}",
+                    start_break.format("%H:%M"),
+                    end_break.format("%H:%M"),
+                    duration.num_hours(),
+                    duration.num_minutes() % 60,
+                    duration.num_seconds() % 60,
+                );
+            }
         }
     }
 }
