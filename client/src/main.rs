@@ -52,7 +52,7 @@ fn print_date_offset(offset: i64, verbose: bool) {
         println!();
 
         if verbose && config.activities_timestamp.len() > 1 {
-            for i in 0..config.activities_timestamp.len() - 2 {
+            for i in 0..config.activities_timestamp.len() - 1 {
                 let start_break = ttlib::time::local_time_from_millis(
                     config.activities_timestamp[i] + config.activities_duration[i],
                 );

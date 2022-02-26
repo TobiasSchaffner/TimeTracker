@@ -21,16 +21,16 @@ fn adjust_screen_time(config: &mut ttlib::config::Config, init: bool) {
 
     if init || dbus::is_screensaver_active() {
         if *last_duration != 0 {
-            config.activities_timestamp.push(ttlib::time::current_time());
+            config.activities_timestamp.push(ttlib::time::timestamp());
             config.activities_duration.push(0);
             ttlib::config::save_config(config);
         }
     } else {
         if *last_duration == 0 {
-            *last_timestamp = ttlib::time::current_time();
+            *last_timestamp = ttlib::time::timestamp();
             *last_duration = UPDATE_INTERVALL_MILLIS as i64;
         } else {
-            *last_duration = ttlib::time::current_time() - *last_timestamp;
+            *last_duration = ttlib::time::timestamp() - *last_timestamp;
         }
         ttlib::config::save_config(config);
     }
