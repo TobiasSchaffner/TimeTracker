@@ -1,7 +1,7 @@
-use chrono::{Date, Utc};
+use chrono::{Date, Local};
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
 use std::fs;
+use std::path::PathBuf;
 
 use crate::time;
 
@@ -13,25 +13,25 @@ pub struct Config {
     pub activities_duration: Vec<i64>,
 }
 
-fn get_config_file(date: Date<Utc>) -> PathBuf {
+fn get_config_file(date: Date<Local>) -> PathBuf {
     match dirs::config_dir() {
         Some(mut conf) => {
-            conf.push(format!("{}/{}.json", BASE_DIR, date));
+            conf.push(format!("{}/{}.json", BASE_DIR, &format!("{}", date)[..10]));
             conf
         }
         None => panic!("Config path does not exist!"),
     }
 }
 
-pub fn config_exists(date: Date<Utc>) -> bool {
+pub fn config_exists(date: Date<Local>) -> bool {
     get_config_file(date).exists()
 }
 
-pub fn load_config(date: Date<Utc>) -> Config {
+pub fn load_config(date: Date<Local>) -> Config {
     match fs::read_to_string(get_config_file(date)) {
         Ok(config) => serde_json::from_str(&config).expect("Malformed Json!"),
         Err(_) => Config {
-            activities_timestamp: vec![time::current_time()],
+            activities_timestamp: vec![time::timestamp()],
             activities_duration: vec![0],
         },
     }
