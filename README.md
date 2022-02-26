@@ -21,6 +21,7 @@ OPTIONS:
     -h, --help               Print help information
     -n, --number <NUMBER>    The number of dates that should be printed [default: 7]
     -s, --start <START>      The start of the printed range [default: -7]
+    -v, --verbose            Print all breaks
     -V, --version            Print version information
 ```
 
