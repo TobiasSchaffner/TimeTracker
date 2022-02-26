@@ -11,11 +11,12 @@ fn print_date_offset(offset: i64) {
     for length in config.activities_duration {
         sum += length;
     }
-    // let first_time = ttlib::time::time_from_millis(sum);
+    let first_time = ttlib::time::local_time_from_millis(config.activities_timestamp[0]);
     let total_time = ttlib::time::duration_from_millis(sum);
     println!(
-        "{} - {:02}:{:02}",
+        "{} - start: {} - total: {:02}:{:02}",
         date.format("%a, %v"),
+        first_time.format("%H:%M"),
         total_time.num_hours(),
         total_time.num_minutes() % 60
     );
