@@ -1,6 +1,6 @@
 # Time Tracker
 
-A plain simple screen time tracker for linux.
+A plain simple screen time tracker for linux written in Rust.
 
 It tracks the time that your screen was unlocked.
 
@@ -9,9 +9,9 @@ too sophisticated for my usecase.
 
 ## Usage
 
-Use the time-tracker cli tool show the total active times per day.
+Use the time-tracker cli tool to show the total active times per day.
 
-Per default the tool will show the last seven days.
+When started without arguments the tool will show the last seven days.
 
 ```
 $ time-tracker -h
@@ -48,7 +48,7 @@ cargo deb -p package
 ```
 ## Development
 
-Use run.sh to build and install the .deb and to run time-tracker
+Use run.sh to build the project, install the .deb and run time-tracker.
 
 ## Troubleshooting
 
