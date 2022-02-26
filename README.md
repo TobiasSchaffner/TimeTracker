@@ -1,16 +1,17 @@
 # Time Tracker
 
-A simple screen time tracker.
+A plain simple screen time tracker for linux.
 
 It tracks the time that your screen was unlocked.
 
-There is a daemon (time-tracker-daemon) running in the background that writes
-the active screen times to ~/.config/
-
-Use the time-tracker cli tool show the total active times per day.
-Per default the tool will show the last seven days.
+The tool was created as the other solutions available e.g. activity watch are
+too sophisticated for my usecase.
 
 ## Usage
+
+Use the time-tracker cli tool show the total active times per day.
+
+Per default the tool will show the last seven days.
 
 ```
 USAGE:
@@ -37,6 +38,9 @@ cargo deb -p package
 Use run.sh to build and install the .deb and to run time-tracker
 
 ## Troubleshooting
+
+There is a daemon (time-tracker-daemon) running in the background that writes
+the active screen times to ~/.config/
 
 Check if the daemon is running and if it throws any error messages:
 ```
