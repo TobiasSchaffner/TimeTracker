@@ -1,3 +1,4 @@
+use clap::Parser;
 
 use ttlib;
 
@@ -12,11 +13,30 @@ fn print_date_offset(offset: i64) {
     }
     // let first_time = ttlib::time::time_from_millis(sum);
     let total_time = ttlib::time::duration_from_millis(sum);
-    println!("{} - {:02}:{:02}", date.format("%a, %v"), total_time.num_hours(), total_time.num_minutes() % 60);
+    println!(
+        "{} - {:02}:{:02}",
+        date.format("%a, %v"),
+        total_time.num_hours(),
+        total_time.num_minutes() % 60
+    );
+}
+
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+struct Args {
+    /// The start of the printed range
+    #[clap(short, long, allow_hyphen_values = true, default_value_t = -7)]
+    start: i64,
+
+    /// The number of dates that should be printed
+    #[clap(short, long, allow_hyphen_values = true, default_value_t = 7)]
+    number: i64,
 }
 
 fn main() {
-    for i in -7..1 {
+    let args = Args::parse();
+
+    for i in args.start + 1..args.start + args.number + 1 {
         print_date_offset(i);
     }
 }
