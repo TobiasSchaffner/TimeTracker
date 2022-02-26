@@ -21,7 +21,7 @@ fn adjust_screen_time(config: &mut ttlib::config::Config, init: bool) {
 
     if init || dbus::is_screensaver_active() {
         if *last_duration != 0 {
-            config.activities_timestamp.push(0);
+            config.activities_timestamp.push(ttlib::time::current_time());
             config.activities_duration.push(0);
             ttlib::config::save_config(config);
         }
