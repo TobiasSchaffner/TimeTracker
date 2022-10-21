@@ -38,12 +38,35 @@ Fri,  4-Mar-2022 - start: 08:43 - total: 03:33 - break: 00:45
 ```
 
 ## Build Project
+
+Install Rust if not already done:
+```
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+Start a new terminal or source your .bashrc to load the rust environment:
+```
+source ~/.bashrc
+```
+
+Install prerequisits:
+```
+sudo apt install libgtk2.0-dev libgtk-3-dev libdbus-1-dev
+```
+
+Build the project:
 ```
 cargo build --release
 ```
 ## Build Debian Package
+
+Install the cargo-deb tool:
 ```
-cargo install deb
+cargo install cargo-deb
+```
+
+Build the package:
+```
 cargo deb -p package
 ```
 ## Development
@@ -57,7 +80,7 @@ the active screen times to ~/.config/
 
 Check if the daemon is running and if it throws any error messages:
 ```
-systemctl --user status time-tracker-daemon
+systemctl --user status time-tracker
 ```
 
 Check if the daemon is writing to the config files:
