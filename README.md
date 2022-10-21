@@ -80,7 +80,7 @@ the active screen times to ~/.config/
 
 Check if the daemon is running and if it throws any error messages:
 ```
-systemctl --user status time-tracker
+ps aux | grep time-tracker-daemon
 ```
 
 Check if the daemon is writing to the config files:
