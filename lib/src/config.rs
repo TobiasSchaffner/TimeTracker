@@ -16,7 +16,9 @@ pub struct Config {
 fn get_config_file(date: Date<Local>) -> PathBuf {
     match dirs::config_dir() {
         Some(mut conf) => {
-            conf.push(format!("{}/{}.json", BASE_DIR, &format!("{}", date)[..10]));
+            conf.push(format!("{}", BASE_DIR));
+            fs::create_dir_all(&conf).expect("Could not create config path!");
+            conf.push(format!("{}.json", &format!("{}", date)[..10]));
             conf
         }
         None => panic!("Config path does not exist!"),
@@ -38,9 +40,10 @@ pub fn load_config(date: Date<Local>) -> Config {
 }
 
 pub fn save_config(config: &Config) {
+    let config_file = get_config_file(time::current_date());
     fs::write(
-        get_config_file(time::current_date()),
+        &config_file,
         serde_json::to_string(config).expect("Could not serialize config."),
     )
-    .expect("Could not save config file!");
+    .expect(&format!("Could not save config file {}!", config_file.into_os_string().into_string().unwrap()));
 }
