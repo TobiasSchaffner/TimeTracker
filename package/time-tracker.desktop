@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=time-tracker
+Exec=time-tracker-daemon
+StartupNotify=false
+Terminal=false
