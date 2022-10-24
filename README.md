@@ -37,6 +37,22 @@ Thu,  3-Mar-2022 - start: 07:59 - end: 19:56 - total: 09:49 - break: 02:07
 Fri,  4-Mar-2022 - start: 08:43 - total: 03:33 - break: 00:45
 ```
 
+## Install
+
+On debian systems you can use the provided .deb package and install it using
+apt.
+
+```
+apt install ./time-tracker_0.1.0_amd64.deb
+```
+
+Please note that you either have to log out and in again to make the daemon
+autostart or start the daemon in background for the current session with:
+
+```
+time-tracker-daemon &
+```
+
 ## Build Project
 
 Install Rust if not already done:
@@ -69,10 +85,6 @@ Build the package:
 ```
 cargo deb -p package
 ```
-## Development
-
-Use run.sh to build the project, install the .deb and run time-tracker.
-
 ## Troubleshooting
 
 There is a daemon (time-tracker-daemon) running in the background that writes
